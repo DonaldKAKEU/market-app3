@@ -2,6 +2,22 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+
+        <!--role-->
+        <div class="form-chek">
+            <input  class="form-check-input" type="radio" id="client" name="role" value="client">
+            <label class="form-check-label" for="client">Client</label>
+        
+            <input class="form-check-input" type="radio" id="vendeur" name="role" value="vendeur">
+            <label class="form-check-label" for="vendeur">Vendeur</label>
+        
+        
+            <input class="form-check-input" type="radio" id="livreur" name="role" value="livreur">
+            <label class="form-check-label" for="livreur">Livreur</label>
+        </div>
+
+
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

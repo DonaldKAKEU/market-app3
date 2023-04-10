@@ -71,8 +71,8 @@ class User extends Authenticatable
         return $this->hasOne(infoVendeur::class);
     }
 
-    public function product(){
-        return $this->hasMany(Product::class);
+    public function produit(){
+        return $this->hasMany(Produit::class);
     }
     
 }

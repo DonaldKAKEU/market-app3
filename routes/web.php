@@ -30,6 +30,8 @@ Route::get('/dashboard', function () {
 //Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
 Route::get('/produits', [\App\Http\Controllers\ProduitController::class, 'index'])->name('produits.index');
 Route::get('/produits/create', [\App\Http\Controllers\ProduitController::class, 'create'])->name('produits.create');
+Route::get('/produits/store', [\App\Http\Controllers\ProduitController::class, 'store'])->name('produits.store');
+Route::get('/produits/shop', [\App\Http\Controllers\ProduitController::class, 'shop'])->name('produits.shop');
 Route::get('/produits/search', [\App\Http\Controllers\ProduitController::class, 'search'])->name('produits.search');
 Route::get('/produits/filter', [\App\Http\Controllers\ProduitController::class, 'filter'])->name('produits.filter');
 Route::get('/produits/sort', [\App\Http\Controllers\ProduitController::class, 'sort'])->name('produits.sort');

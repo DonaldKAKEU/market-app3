@@ -1,71 +1,39 @@
-@extends('layouts.app')
+<x-app-layout>
 
-@section('content')
-    <h1>Liste des produits</h1>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Shop') }}
+        </h2>
+    </x-slot>
 
-    <a href="{{ route('produits.create') }}" class="btn btn-primary mb-3">Ajouter un produit</a>
-
-    <form action="{{ route('produits.search') }}" method="GET" class="mb-3">
-        <div class="input-group">
-            <input type="text" name="query" class="form-control" placeholder="Rechercher un produit...">
-            <button type="submit" class="btn btn-outline-secondary">Rechercher</button>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        @foreach ($produits as $produit)
+                            <div class="max-w-xs mx-auto overflow-hidden shadow-lg rounded-lg">
+                                
+                                <div class="py-4 px-6">
+                                    <h2 class="font-bold text-xl mb-2">{{ $produit->libelle }}</h2>
+                                    <p class="text-gray-700 text-base">{{ $produit->description }}</p>
+                                    <div class="mt-4 flex justify-between">
+                                        <div class="font-bold text-xl">{{ $produit->prix }} €</div>
+                                        <div >
+                                            <form action="{{ route('produits.shop') }}" method="GET">
+                                                @csrf
+                                                <input type="hidden" name="produit_id" value="{{ $produit->id }}">
+                                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-blue font-bold py-2 px-4 rounded">Acheter</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
+</x-app-layout>
 
-    <form action="{{ route('produits.filter') }}" method="GET" class="mb-3">
-        <div class="input-group">
-            <select name="category" class="form-control">
-                <option value="">Toutes les catégories</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Books">Books</option>
-                <option value="Clothing">Clothing</option>
-            </select>
-            <button type="submit" class="btn btn-outline-secondary">Filtrer</button>
-        </div>
-    </form>
-
-    <form action="{{ route('produits.sort') }}" method="GET" class="mb-3">
-        <div class="input-group">
-            <select name="order" class="form-control">
-                <option value="asc">Ordre alphabétique croissant</option>
-                <option value="desc">Ordre alphabétique décroissant</option>
-            </select>
-            <button type="submit" class="btn btn-outline-secondary">Trier</button>
-        </div>
-    </form>
-
-   @if(count($produits) > 0)
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prix</th>
-                    <th>Description</th>
-                    <th>Catégorie</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($produits as $produit)
-                    <tr>
-                        <td>{{ $produit->libelle }}</td>
-                        <td>{{ $produit->prix }} €</td>
-                        <td>{{ $produit->description }}</td>
-                        <td>{{ $produit->taille }}</td>
-                        <td>
-                            <a href="{{ route('produits.show', $produit->id) }}" class="btn btn-info btn-sm">Voir</a>
-                            <a href="{{ route('produits.edit', $produit->id) }}" class="btn btn-primary btn-sm">Modifier</a>
-                            <form action="{{ route('produits.destroy', $product->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @else
-        <p>Aucun produit n'a été trouvé.</p>
-    @endif
-@endsection

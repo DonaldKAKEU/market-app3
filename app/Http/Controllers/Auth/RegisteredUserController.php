@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use GuzzleHttp\Client;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class RegisteredUserController extends Controller
         ]);
 
     //admin user
-        if($request->role == 0){
+        /*if($request->role == admin){
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -47,35 +48,36 @@ class RegisteredUserController extends Controller
             
             ]);
         }
+        */
     // client user
-        elseif ($request->role == 1){
+        if ($request->role == "client"){
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => 1,
+                'role' => "client",
                 
             ]);
             
         }
     //vendeur user    
-        elseif ($request->role == 2){
+        elseif ($request->role == "vendeur"){
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => 2,
+                'role' => "vendeur",
                 
             ]);
             
         }
     //livreur user    
-        elseif ($request->role == 3){
+        elseif ($request->role == "livreur"){
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => 3,
+                'role' => "livreur",
                 
             ]);
             

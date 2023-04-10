@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("description");
             $table->integer("taille");
             $table->integer("poid");
+            $table->integer("quantité");
             $table->timestamps();
             //$table->foreignId('vendeurs_id')->references("id")->on("vendeurs");
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Commande;
 use App\Models\Product;
 use App\Models\Produit;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Input\Input;
 
 class ProduitController extends Controller
 {
@@ -13,10 +16,7 @@ class ProduitController extends Controller
     public function index()
     {
         $produits = Produit::all();
-        //dd($products);
-        if ($produits->isEmpty()) {
-            return view('produits.index');
-        }
+        //dd($produits);
         return view('produits.index', compact('produits'));
     }
 
@@ -32,8 +32,31 @@ class ProduitController extends Controller
         $produit->libelle = $request->input('libelle');
         $produit->prix = $request->input('prix');
         $produit->description = $request->input('description');
+        $produit->taille = $request->input('taille');
+        $produit->poid = $request->input('poid');
+        $produit->quantité = $request->input('quantité');
+        $produit->user_id = $request->input('user_id');
+
+
+
         $produit->save();
         return redirect()->route('produits.index');
+    }
+
+    public function shop(Request $request){
+        $produit_id = Produit::find($request->input("produit_id"));
+        
+        $commande = new Commande();
+        $commande->statut_commande = false;
+        $commande->statut_livraison = false;
+        $commande->produits_id = $request->input("produit_id");
+        $produit = Produit::where("id", $produit_id);
+        $user = $produit->user;
+        $userid = $user->id;
+        $commande->user_id = $userid;
+        $commande->save();
+        
+        return redirect()->back()->with('success', 'Product added to cart successfully.');
     }
 
     public function show($id)
