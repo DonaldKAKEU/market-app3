@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Reductions', function (Blueprint $table) {
+        Schema::create('contrats', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->date("date_debut");
-            $table->integer("date_fin");
-            $table->integer("pourcentage_reduction");
-            $table->boolean("livraison_gratuite");
-            $table->foreignId('user_id')->constrained();
-            
+            $table->date("date_fin");
+            $table->integer("commission");
+            $table->string("conditon");
+            $table->boolean("validité");
+            $table->foreignId('commercant_id')->constrained();
+            $table->timestamps();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Reductions');
+        Schema::dropIfExists('contrats');
     }
 };

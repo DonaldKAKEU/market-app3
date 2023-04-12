@@ -28,10 +28,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 //Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
-Route::get('/produits', [\App\Http\Controllers\ProduitController::class, 'index'])->name('produits.index');
-Route::get('/produits/create', [\App\Http\Controllers\ProduitController::class, 'create'])->name('produits.create');
-Route::get('/produits/store', [\App\Http\Controllers\ProduitController::class, 'store'])->name('produits.store');
-Route::get('/produits/shop', [\App\Http\Controllers\ProduitController::class, 'shop'])->name('produits.shop');
+Route::get('/produits', [\App\Http\Controllers\ProduitController::class, 'listeProduits'])->name('produits.index');
+Route::get('/produits/comparer', [\App\Http\Controllers\ProduitController::class, 'view_comparer'])->name('produits.comparer');
+Route::get('/produits/create', [\App\Http\Controllers\ProduitController::class, 'creer_produit'])->name('produits.create');
+Route::get('/produits/publier', [\App\Http\Controllers\ProduitController::class, 'publier_produit'])->name('produits.publier');
 Route::get('/produits/search', [\App\Http\Controllers\ProduitController::class, 'search'])->name('produits.search');
 Route::get('/produits/filter', [\App\Http\Controllers\ProduitController::class, 'filter'])->name('produits.filter');
 Route::get('/produits/sort', [\App\Http\Controllers\ProduitController::class, 'sort'])->name('produits.sort');

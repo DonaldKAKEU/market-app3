@@ -13,17 +13,21 @@ class Produit extends Model
 
     protected $fillable = [
         'libelle',
+        'description',
         'prix',
-        'numero_produit',
-        'taille',
+        'validite',
+        'cathegorie',
+        'date_livraison',
+        'commercant_id',
     ];
 
-    public function commande(){
-        return $this->hasMany(Commande::class);
+    public function commercant()
+    {
+        return $this->belongsTo(Commercant::class);
     }
 
-    public function user(){
-        return $this->hasMany(User::class);
+    public function commandes()
+    {
+        return $this->belongsToMany(Commande::class);
     }
-
 }

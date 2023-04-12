@@ -14,12 +14,9 @@ return new class extends Migration
         Schema::create('info_carte_bancaires', function (Blueprint $table) {
             $table->id();
             $table->integer("numero");
-            $table->integer("password");
-            $table->integer("soldeCompte");
+            $table->integer("solde");
             $table->timestamps();
-            //$table->integer("client_id");
-           // $table->foreignId("clients_id")->references("id")->on("clients");
-           $table->foreignId('user_id')->constrained()->onDelete('cascade');
+           $table->foreignId('user_id');
         });
     }
 
@@ -31,3 +28,4 @@ return new class extends Migration
         Schema::dropIfExists('info_carte_bancaires');
     }
 };
+

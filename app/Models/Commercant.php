@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Contrat extends Model
+class Commercant extends Model
 {
     use HasFactory;
 
-    protected $table = "contrats";
+    
     protected $fillable = [
-        'start_date',
-        'end_date',
-        'commission',
-        'conditions',
         'user_id',
+        'name',
+        'addresse',
+        'numero_tel',
+        'note',
     ];
 
     public function user()

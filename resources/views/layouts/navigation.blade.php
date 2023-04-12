@@ -21,6 +21,11 @@
                         {{ __('Produits') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('produits.comparer')" :active="request()->routeIs('produits.comparer')">
+                        {{ __('Comparateur de prix') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

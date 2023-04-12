@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Contrat extends Model
+class Info_carte_bancaire extends Model
 {
     use HasFactory;
+    protected $table = "info_carte_bancaires";
 
-    protected $table = "contrats";
+
     protected $fillable = [
-        'start_date',
-        'end_date',
-        'commission',
-        'conditions',
+        'numero',
+        'solde',
         'user_id',
     ];
 
@@ -22,4 +21,6 @@ class Contrat extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
 }

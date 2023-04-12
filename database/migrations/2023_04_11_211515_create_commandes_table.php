@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('commandes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->boolean('statut_commande');
-            $table->boolean("statut_livraison");
-           // $table->foreignId('clients_id')->references("id")->on("clients");
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            //$table->foreignId('produits_id')->references("id")->on("produits");
-            $table->foreignId('produits_id')->constrained()->onDelete('cascade');
-                
+            $table->date('date_livraison');
+            $table->boolean('statut')->default(false);
+            $table->string("prix_total");
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('panier_id')->constrained();
+            $table->integer("quantite");
+            $table->foreignId('livreurs_id')->constrained();
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('commandes2');
+        Schema::dropIfExists('commandes');
     }
 };

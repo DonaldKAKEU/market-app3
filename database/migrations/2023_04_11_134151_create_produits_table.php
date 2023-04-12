@@ -13,23 +13,18 @@ return new class extends Migration
     {
         Schema::create('produits', function (Blueprint $table) {
             $table->id();
-            $table->integer("numero_produit")->unique();
             $table->string("libelle");
             $table->double("prix");
+            $table->double("cathegorie");
             $table->string("description");
-            $table->integer("taille");
-            $table->integer("poid");
-            $table->integer("quantité");
+            $table->boolean("validite");
+            $table->date("date_livraison");
+            $table->string("appartenance"); // ext ou interne pour la market-place
             $table->timestamps();
-            //$table->foreignId('vendeurs_id')->references("id")->on("vendeurs");
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            //$table->foreignId('paniers_id')->references("id")->on("paniers");
-            //$table->foreignId('panier_id')->constrained()->onDelete('cascade');
-            
-            
-        });
+            $table->foreignId('commercant_id')->constrained();
+                                  
+    });
     }
-
     /**
      * Reverse the migrations.
      */

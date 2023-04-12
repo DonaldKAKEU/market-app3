@@ -12,11 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+
+    use HasFactory, Notifiable;
+
     protected $fillable = [
         'name',
         'email',
@@ -34,45 +32,30 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    public function addresse(){
-        return $this->hasOne(Addresse::class);
+    public function contrats()
+    {
+        return $this->hasMany(Contrat::class);
     }
 
-    public function reduction(){
-        return $this->hasOne(Reduction::class);
-    }
-
-    public function panier(){
-        return $this->hasMany(Panier::class);
-    }
-
-    public function commande(){
+    public function commandes()
+    {
         return $this->hasMany(Commande::class);
     }
 
-    public function contrat(){
-        return $this->hasOne(Contrat::class);
+    public function panier()
+    {
+        return $this->hasMany(Panier::class);
     }
 
-    public function infoCarteBancaire(){
-        return $this->hasOne(infoCarteBancaire::class);
+    public function reductions()
+    {
+        return $this->hasMany(Reduction::class);
     }
 
-    public function infoVendeur(){
-        return $this->hasOne(infoVendeur::class);
-    }
-
-    public function produit(){
-        return $this->hasMany(Produit::class);
+    public function info_carte_bancaire()
+    {
+        return $this->hasMany(Info_carte_bancaire::class);
     }
     
+
 }

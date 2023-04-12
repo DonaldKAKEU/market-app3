@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string("role");                         // admin, client, vendeur, livreur
+            $table->string("role"); // client vendeur ou admin                        // admin, client, vendeur, livreur
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-           /// $table->foreignId('produit_id')->constrained()->onDelete('cascade');
+           
         });
     }
 

@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Reductions', function (Blueprint $table) {
+        Schema::create('paniers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->date("date_debut");
-            $table->integer("date_fin");
-            $table->integer("pourcentage_reduction");
-            $table->boolean("livraison_gratuite");
+            $table->foreignId('produit_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            
         });
     }
 
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Reductions');
+        Schema::dropIfExists('paniers');
     }
 };

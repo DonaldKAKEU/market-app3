@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('info_vendeur', function (Blueprint $table) {
+        Schema::create('livreurs', function (Blueprint $table) {
             $table->id();
-            $table->integer("note");  // entre 1 et 5
             $table->timestamps();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string("name");
+            $table->string("addresse");
+            $table->string("numero_tel");
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('info_vendeur');
+        Schema::dropIfExists('livreurs');
     }
 };
