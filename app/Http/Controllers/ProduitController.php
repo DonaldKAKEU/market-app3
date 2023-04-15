@@ -19,28 +19,48 @@ class ProduitController extends Controller
     public function listeProduits()
     {
         $produits = Produit::all();
-        //dd($produits);
+        dd($produits);
         return view('produits.index', compact('produits'));
     }
+
+
+
+
 
     /* afficher la liste des produits disponibles*/
     public function afficher_produits_disponible(){
         $produits = Produit::where("validite", true);
+        dd($produits);
         return view ('produits.disponible', compact('produits'));
     }
 
+
+
+
+    /*cette fonction permet de get les produit les produits qui ont le meme nom et renvoyer à la vue on afficheras ces produits et les prix pour les comparer*/
     public function comparerPrix($nomProduit)
     {
         $produits = Produit::where('libelle', $nomProduit)->get();
+        dd($produits);
         return view('produits.comparer', ['produits' => $produits]);
     }
 
-    public function view_comparer(Request $request){
-        $nomProduit = $request->input('nomProduit');
-        $produits = Produit::where('libelle', $nomProduit)->get();
-        return view('produits.comparer', ['produits' => $produits] );
+
+
+
+
+
+    /**cette fonction renvois la vue qui permet de comparer les prix */
+    public function view_comparer(){
+        return view('produits.comparer' );
     }
 
+
+
+
+
+
+    /**cette fonction est offerte au client et permet de d'ajouter un produit au panier */
     public function ajouterPanier(Request $request){ // resquest contient l'id du produit ajouté
         $produit = Produit::where("id", $request->input('produit_id'))->get();
         $user_id = Auth::id();
@@ -55,13 +75,16 @@ class ProduitController extends Controller
         else{
 
         }
-        $user_id = Auth::id();
-        $panier-> $request->input('produit_id');
+        $panier->produit_id = $request->input('produit_id');
         $panier-> $user_id;
+        
 
         return view('produits.mon-panier', $produit);
     }
     
+
+
+    /*cette fonction permet de passer une commande*/
     public function passerCommande(Request $request){ // request l'id du panier et contient toutes les info du panier
     
     $produit = Produit::where("id", $request->input('produit_id'))->get();
@@ -69,105 +92,36 @@ class ProduitController extends Controller
         return response()->json(['error' => 'Produit en rupture de stock'], 400);
     }
 
-
-else
-    {
-    $commande = new Commande();
-    $user_id = Auth::id();
-    $commande->user_id = $user_id;
-    $commande->produit_id = $request->input('produit_id');
-    $date_livraison = Produit::where('date_livraison', $produit->date_livraison);
-    $prix = Produit::where('prix', $produit->prix);
+    else{
         
-    $commande->date_livraison = $date_livraison;
-    $commande->prix_total = $prix;
-    $commande->quantite = $request->input('quantite');
-    $commande->livreur_id = $request->input('livreur_id');
-    $commande->save();
-    
+        $user_id = Auth::id();
+        $date_livraison = Produit::where('date_livraison', $produit->date_livraison);
+        $commande = new Commande();
+        $commande->new($request);
+
     return redirect('/client.confirmation-commande');
     }
 }
 
-/*public function commanderProduit(Request $request)
-{
 
-    // Récupération des données de la commande
-    $user_id = $request->input('user_id');
-    $produit_id = $request->input('produit_id');
-    $quantite = $request->input('quantite');
-    $adresse_livraison = $request->input('adresse_livraison');
 
-    // Recherche du produit
-    $produit = Produit::findOrFail($produit_id);
-
-    // Vérification de la disponibilité du produit
-    if ($produit->stock < $quantite) {
-        return response()->json(['error' => 'Produit en rupture de stock'], 400);
-    }
-
-    // Recherche du client
-    $client = Client::findOrFail($client_id);
-
-    // Vérification du solde du client
-    if ($client->solde < $produit->prix * $quantite) {
-        return response()->json(['error' => 'Solde insuffisant'], 400);
-    }
-
-    // Création de la commande
-    $commande = new Commande();
-    $commande->client_id = $client_id;
-    $commande->produit_id = $produit_id;
-    $commande->quantite = $quantite;
-    $commande->prix_total = $produit->prix * $quantite;
-    $commande->mode_livraison = $mode_livraison;
-    $commande->adresse_livraison = $adresse_livraison;
-    $commande->statut = 'en attente';
-    $commande->save();
-
-    // Mise à jour du stock du produit
-    $produit->stock -= $quantite;
-    $produit->save();
-
-    // Attribution d'un livreur à la commande
-    $livreur = Livreur::trouverLivreurDisponible();
-    $commande->livreur_id = $livreur->id;
-    $commande->save();
-
-    // Retour de la réponse JSON avec les détails de la commande
-    return response()->json
-}
-*/
-    
-
-    /*public function shop(Request $request){
-        $produit_id = Produit::find($request->input("produit_id"));
-        
-        $commande = new Commande();
-        $commande->statut_commande = false;
-        $commande->statut_livraison = false;
-        $commande->produits_id = $request->input("produit_id");
-        $produit = Produit::where("id", $produit_id);
-        $user = $produit->user;
-        $userid = $user->id;
-        $commande->user_id = $userid;
-        $commande->save();
-        
-        return redirect()->back()->with('success', 'Product added to cart successfully.');
-    }
-*/
+/**cette fonction permet de voir les detail d'un produit */
     public function show($id)
     {
         $produit = Produit::find($id);
         return view('produits.show', compact('produit'));
     }
 
+
+    /**renvois le produit à editer dans la vue edit */
     public function edit($id)
     {
         $produit = Produit::find($id);
         return view('produits.edit', compact('produit'));
     }
 
+
+  /** permet d'editer un produit admin/coommercant */  
     public function update(Request $request, $id)
     {
         $produit = Produit::find($id);
@@ -205,28 +159,28 @@ else
     public function sort(Request $request)
     {
         $order = $request->input('order');
-        $products = Produit::orderBy('libelle', $order)->get();
+        $products = Produit::orderBy('prix', $order)->get();
         return view('produits.index', compact('produits'));
     }
 
+    /**admin/commercant */
    public function publier_produit(Request $request){
 
-    $produit = new Produit;
-    $produit->libelle = $request->input('libelle');
-    $produit->prix = $request->input('prix');
-    $produit->description = $request->input('description');
-    $produit->validite = true;
-    $produit->date_livraison = $request->input('date_livraison');
-    $produit->appartenance = $request->input('appartenance');
-    $user_id = User::where("id", Auth::id());
-    $commercant_id = Commercant::where("user_id", $user_id);
-    $produit->commercant_id = $commercant_id;
-    $produit->save(); 
+        $produit = new Produit;
+
+                                                                     
+        $user_id = User::where("id", Auth::id());
+        $commercant_id = Commercant::where("user_id", $user_id);  /**je recupère le commercant associé à l'utilisateur connecté */
+
+        /**je crée et save le produit dans la bd */
+        $produit->new($request, $commercant_id);
+        $produit->save(); 
     
-    return redirect()->back()->with('success', 'Product added to cart successfully.');
+        return redirect()->back()->with('success', 'Product added to cart successfully.');
    }
 
+   /**cette fonction permet de renvoyer la vue qui permet de creer un produit, admin/commercant */
    public function creer_produit(){
-    return view("produits.create");
+        return view("produits.create");
    }
 }

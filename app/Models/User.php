@@ -6,7 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Http\Request;
 use Laravel\Sanctum\HasApiTokens;
+use phpDocumentor\Reflection\Types\This;
 
 class User extends Authenticatable
 {
@@ -57,5 +59,50 @@ class User extends Authenticatable
         return $this->hasMany(Info_carte_bancaire::class);
     }
     
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getFillable() {
+		return $this->fillable;
+	}
+	
+	/**
+	 * @param mixed $fillable 
+	 * @return self
+	 */
+	public function setFillable($fillable): self {
+		$this->fillable = $fillable;
+		return $this;
+	}
+
+    public  static function new(Request $request){
+        $nouveau_user = User::create([
+            "name" => $request ->input("name"),
+            "email" => $request ->input("email"),
+            "password" => $request ->input("password"),
+            "role" => $request ->input("role"),
+            ]);
+
+        $nouveau_user->save();
+
+    }
+
+
+
+    public static function dropById($id){
+        $user = User::find($id);
+        $user->delete();
+    }
+
+    public static function  getNameById($id){
+        $name = User::where("id", $id)->get('name');
+        return $name;
+    }
+
+    public static function getIdByName($name){
+        return User::where('name', $name)->get('id');
+    }
 
 }

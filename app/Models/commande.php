@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+
 
 class Commande extends Model
 {
@@ -34,4 +36,38 @@ class Commande extends Model
         return $this->belongsTo(Livreur::class);
     }
 
+
+	/**
+	 * @return mixed
+	 */
+	public function getFillable() {
+		return $this->fillable;
+	}
+	
+	/**
+	 * @param mixed $fillable 
+	 * @return self
+	 */
+	public function setFillable($fillable): self {
+		$this->fillable = $fillable;
+		return $this;
+	}
+
+    public function new(Request $request){
+        $nouvelle_commande = Commande::create([
+            "prix_total" => $request ->input("prix_total"),
+            "date_livraison" => $request ->input("date_livraison"),
+            "user_id" => $request ->input("user_id"),
+            "panier_id" => $request ->input("panier_id"),
+            "livreur_id" => $request ->input("livreur_id"),
+            "quantite" => $request ->input("quantite"), 
+        ]);
+
+        $nouvelle_commande->save();
+    }
+
+    public function drop($id){
+        $commande = Commande::find($id);
+        $commande->delete();
+    }
 }

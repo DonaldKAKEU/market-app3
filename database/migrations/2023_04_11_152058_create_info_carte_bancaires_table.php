@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer("numero");
             $table->integer("solde");
             $table->timestamps();
-           $table->foreignId('user_id');
+           $table->foreignId('user_id')->constrained();;
         });
     }
 

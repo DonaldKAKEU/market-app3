@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->date("date_debut");
-            $table->integer("date_fin");
+            $table->date("date_fin");
             $table->integer("pourcentage_reduction");
             $table->boolean("livraison_gratuite");
             $table->foreignId('user_id')->constrained();

@@ -7,8 +7,13 @@
     </x-slot>
     <form action="{{ route('produits.comparer') }}" method="GET">
          @csrf
+
+         <div class="form-group">
             <label for="nomProduit">Nom du produit :</label>
-            <input type="text" name="nomProduit" id="nomProduit>
+            <input  type="text" class="form-control"  name="nomProduit" id="nomProduit" required>
+        </div>
+           
+            
             <button type="submit" class="btn btn-primary">comparer</button>
     </form>
 
