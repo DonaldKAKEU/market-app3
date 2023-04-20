@@ -5,35 +5,38 @@
             {{ __('Shop') }}
         </h2>
     </x-slot>
+    <div class="container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nom du produit</th>
+          <th>Description</th>
+          <th>Nom du vendeur</th>
+          <th>Prix</th>
+          <th></th>
+        </tr>
+      </thead>
+      @foreach ($produits as $produit)
+      <tbody>
+        <tr>
+          <td>{{ $produit->libelle }}</td>
+          <td>{{ $produit->description }}</td>
+          <td>{{$produit->commercant->name}}</td>
+          <td>{{ $produit->prix }} $</td>
+          <form action="{{ route('produit.ajouter-panier') }}" method="GET">
+            @csrf
+            <input type="hidden" name="produit" value="{{$produit}}">
+            <td><button class="btn btn-primary"><a href="produits/monPanier">Ajouter au panier</button></a></td>
+          </form>  
+        </tr>
+      </tbody>
+      @endforeach
+    </table>
+    
+  </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        @foreach ($produits as $produit)
-                            <div class="max-w-xs mx-auto overflow-hidden shadow-lg rounded-lg">
-                                
-                                <div class="py-4 px-6">
-                                    <h2 class="font-bold text-xl mb-2">{{ $produit->libelle }}</h2>
-                                    <p class="text-gray-700 text-base">{{ $produit->description }}</p>
-                                    <div class="mt-4 flex justify-between">
-                                        <div class="font-bold text-xl">{{ $produit->prix }} €</div>
-                                        <div >
-                                            <form action="{{ route('produits.shop') }}" method="GET">
-                                                @csrf
-                                                <input type="hidden" name="produit_id" value="{{ $produit->id }}">
-                                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-blue font-bold py-2 px-4 rounded">Acheter</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </x-app-layout>
 

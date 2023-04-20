@@ -46,6 +46,7 @@ Route::prefix('/produit')->group(function(){
     Route::get('/show', [ProduitController::class, 'show'])->name('produits.show');
     Route::get('/filter', [ProduitController::class, 'filter'])->name('produits.filter');
     Route::get('/search', [ProduitController::class, 'search'])->name('produits.search');
+    Route::get('/monPanier', [ProduitController::class, 'listePanier'])->name('produits.panier');
 
 
 

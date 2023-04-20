@@ -13,7 +13,6 @@ class Panier extends Model
     protected $table = "paniers";
 
     protected $fillable = [
-        'produit_id',
         'user_id',
     ];
 
@@ -26,7 +25,9 @@ class Panier extends Model
     {
         return $this->belongsTo(Commande::class);
     }
-
+     public function user(){
+        return $this->belongsTo(User::class);
+     }
 
 	/**
 	 * @return mixed
@@ -46,7 +47,6 @@ class Panier extends Model
 
     public function new(Request $request){
         $nouveau_panier = Panier::create([
-            "produit_id" => $request ->input("produit_id"),
             "user_id" => $request ->input("user_id"),
         ]);
 

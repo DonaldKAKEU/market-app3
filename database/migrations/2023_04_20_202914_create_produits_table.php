@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("appartenance"); // ext ou interne pour la market-place
             $table->timestamps();
             $table->foreignId('commercant_id')->constrained();
+            $table->foreignId('panier_id')->constrained();
                                   
     });
     }

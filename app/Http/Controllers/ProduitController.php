@@ -13,14 +13,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\Input;
 
+use function Pest\Laravel\get;
+
 class ProduitController extends Controller
 {
     /* afficher tout les produits*/
     public function listeProduits()
     {
         $produits = Produit::all();
-        dd($produits);
         return view('produits.index', compact('produits'));
+    }
+
+
+    public function listePanier(){
+        $user_id = Auth::id();
+       // dd($user_id);
+        $panier_id = Panier::where("user_id", $user_id)->get("id");
+       // $produits = Produit::where("panier_id", $panier_id)->get();
+        $produits = Produit::where("panier_id", $panier_id)->get();
+       // dd($produits);
+
+        return view('produits.monPanier', compact('produits'));
+
     }
 
 
@@ -61,14 +75,14 @@ class ProduitController extends Controller
 
 
     /**cette fonction est offerte au client et permet de d'ajouter un produit au panier */
-    public function ajouterPanier(Request $request){ // resquest contient l'id du produit ajouté
+    public function ajouter_panier(Request $request){ // resquest contient l'id du produit ajouté
         $produit = Produit::where("id", $request->input('produit_id'))->get();
         $user_id = Auth::id();
 
 
         $panier = Panier::where('user_id', Auth::id())->get();
 
-        if($panier == null){
+        if($panier->isEmpty()){
             $panier = new Panier();
         }
 
@@ -76,6 +90,7 @@ class ProduitController extends Controller
 
         }
         $panier->produit_id = $request->input('produit_id');
+        
         $panier-> $user_id;
         
 

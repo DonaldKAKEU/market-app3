@@ -13,17 +13,22 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('HOME') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('produits.index')" :active="request()->routeIs('produits.index')">
-                        {{ __('Produits') }}
+                        {{ __('PRODUITS') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('produits.comparer')" :active="request()->routeIs('produits.comparer')">
-                        {{ __('Comparateur de prix') }}
+                        {{ __('COMPARER DES PRIX') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('produits.panier')" :active="request()->routeIs('produits.panier')">
+                        {{ __('mon Panier') }}
                     </x-nav-link>
                 </div>
             </div>

@@ -20,6 +20,7 @@ class Produit extends Model
         'cathegorie',
         'date_livraison',
         'commercant_id',
+        'panier_id'
     ];
 
     public function commercant()
@@ -30,6 +31,10 @@ class Produit extends Model
     public function commandes()
     {
         return $this->belongsToMany(Commande::class);
+    }
+
+    public function panier(){
+        return $this->belongsTo(Panier::class);
     }
 
 	/**
