@@ -27,11 +27,17 @@ class ProduitController extends Controller
 
     public function listePanier(){
         $user_id = Auth::id();
-       // dd($user_id);
-        $panier_id = Panier::where("user_id", $user_id)->get("id");
-       // $produits = Produit::where("panier_id", $panier_id)->get();
-        $produits = Produit::where("panier_id", $panier_id)->get();
-       // dd($produits);
+       //dd($user_id);
+        $panier = Panier::where("user_id", $user_id)->get();
+      // dd($panier);
+       if($panier== null){
+        $produits = null;
+       }
+       else{
+        $produits = Produit::where("panier_id", $panier->id)->get();
+       }
+
+       dd($panier);
 
         return view('produits.monPanier', compact('produits'));
 
@@ -52,11 +58,14 @@ class ProduitController extends Controller
 
 
     /*cette fonction permet de get les produit les produits qui ont le meme nom et renvoyer à la vue on afficheras ces produits et les prix pour les comparer*/
-    public function comparerPrix($nomProduit)
+    public function comparerPrix( Request $nomProduit)
     {
-        $produits = Produit::where('libelle', $nomProduit)->get();
-        dd($produits);
-        return view('produits.comparer', ['produits' => $produits]);
+        $datas = Produit::where('libelle', $nomProduit)->get("prix", "libele");
+       // $commercant_id = Produit::where('libelle', $nomProduit)->get("commercant_id");
+       // $nomCommercant = Commercant::where("id",$commercant_id )->get("name");
+
+        //dd($datas);
+        return view('produits.comparer', compact("datas"));
     }
 
 

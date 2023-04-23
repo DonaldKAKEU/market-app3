@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string("name");
             $table->string("addresse");
-            $table->string("note"); // de 1 à 5
-            $table->string("numero_tel");
+            $table->integer("note"); // de 1 à 5
+            $table->integer("numero_tel");
             $table->timestamps();
         });
     }

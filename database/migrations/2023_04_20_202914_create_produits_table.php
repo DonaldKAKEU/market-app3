@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string("libelle");
             $table->double("prix");
-            $table->double("cathegorie");
+            $table->string("cathegorie");
             $table->string("description");
             $table->boolean("validite");
             $table->date("date_livraison");
-            $table->string("appartenance"); // ext ou interne pour la market-place
+            $table->boolean("appartenance"); // vrai : produit interne , faux:produit externe
             $table->timestamps();
             $table->foreignId('commercant_id')->constrained();
             $table->foreignId('panier_id')->constrained();
