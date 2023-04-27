@@ -39,6 +39,7 @@ Route::prefix('/produit')->group(function(){
     Route::get('/comparer', [ProduitController::class, 'view_comparer'])->name('produits.comparer');
     Route::post('/comparer', [ProduitController::class, 'comparerPrix'])->name('produits.comparer-prix');
     Route::get('/ajouter_panier', [ProduitController::class, 'ajouter_panier'])->name('produit.ajouter-panier');
+    Route::delete('/retirer_panier/{id}', [ProduitController::class, 'retirer_panier'])->name("produit.retirer-panier");
     Route::get('/passer_commande', [ProduitController::class, 'passer_commande'])->name('passer-commande');
     Route::get('/edit', [ProduitController::class, 'edit'])->name('produit.edit');
     Route::post('/update', [ProduitController::class, 'update'])->name(('produits.edit'));

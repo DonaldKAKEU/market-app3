@@ -17,6 +17,7 @@
                     <th>Nom du vendeur</th>
                     <th>Prix</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
         @foreach ($produits as $produit)
@@ -26,17 +27,23 @@
                     <td>{{ $produit->description }}</td>
                     <td>{{$produit->commercant->name}}</td>
                     <td>{{ $produit->prix }} $</td>
+                    <form action="{{route('produit.retirer-panier', $produit->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <td><button type="submit" class="btn btn-primary">Retirer du panier</button>
+                    </form> 
                 </tr>
             </tbody>
         @endforeach
             </table>
         </div>
-    <div class="container" >
+        <div class="container" >
             <form action="{{ route('produit.ajouter-panier') }}" method="GET">
                 @csrf
                 <td><button type="submit" class="btn btn-primary"><a href="produits/commandeValider">Passer la commande</button></a></td>
-            </form>  
-    </div>
+            </form> 
+            
+        </div>
 
     @endif
 

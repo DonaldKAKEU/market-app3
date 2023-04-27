@@ -11,8 +11,8 @@
 		<form method="post" class="form-inline" action="{{ route('produits.comparer-prix') }}" >
 			<div class="form-group">
 				@csrf
-				<label for="nom-produit" class="sr-only">Nom du produit</label>
-				<input type="text" class="form-control mb-2 mr-sm-2" id="nom-produit" name="nom-produit" placeholder="Nom du produit" required>
+				<label for="nomProduit" class="sr-only">Nom du produit</label>
+				<input type="text" class="form-control mb-2 mr-sm-2" id="nomProduit" name="nomProduit" placeholder="Nom du produit" required>
 			</div>
 			<button type="submit" class="btn btn-primary mb-2">Rechercher</button>
 		</form>
@@ -31,7 +31,7 @@
 	  <tbody>
       @foreach($datas as $data)
         <tr>
-          <td>{{ $data->libele }}</td>
+          <td>{{ $data->libelle }}</td>
           <td>{{ $data->commercant->name}}</td>
           <td>{{ $data->prix }}</td>
         </tr>

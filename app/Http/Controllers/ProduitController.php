@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\Input;
+use \Hamcrest\Core\IsTypeOf;
 
 use function Pest\Laravel\get;
 
@@ -28,16 +29,17 @@ class ProduitController extends Controller
     public function listePanier(){
         $user_id = Auth::id();
        //dd($user_id);
-        $panier = Panier::where("user_id", $user_id)->get();
-      // dd($panier);
-       if($panier== null){
+        $panier_id = Panier::where("user_id", $user_id)->get();
+     // dd($panier_id);
+       if($panier_id== null){
         $produits = null;
        }
        else{
-        $produits = Produit::where("panier_id", $panier->id)->get();
+      //  $produits = Produit::where("panier_id", $panier_id)->get();
+      $produits = Produit::whereBelongsTo($panier_id)->get();
        }
 
-       dd($panier);
+      // dd($produits);
 
         return view('produits.monPanier', compact('produits'));
 
@@ -58,13 +60,15 @@ class ProduitController extends Controller
 
 
     /*cette fonction permet de get les produit les produits qui ont le meme nom et renvoyer à la vue on afficheras ces produits et les prix pour les comparer*/
-    public function comparerPrix( Request $nomProduit)
+    public function comparerPrix( Request $request)
     {
-        $datas = Produit::where('libelle', $nomProduit)->get("prix", "libele");
+        $nomProduit = $request->input("nomProduit");
+       // dd($nomProduit);
+        $datas = Produit::where('libelle', 'LIKE', "%$nomProduit%")->get();
        // $commercant_id = Produit::where('libelle', $nomProduit)->get("commercant_id");
        // $nomCommercant = Commercant::where("id",$commercant_id )->get("name");
 
-        //dd($datas);
+        //sdd($datas);
         return view('produits.comparer', compact("datas"));
     }
 
@@ -85,7 +89,9 @@ class ProduitController extends Controller
 
     /**cette fonction est offerte au client et permet de d'ajouter un produit au panier */
     public function ajouter_panier(Request $request){ // resquest contient l'id du produit ajouté
-        $produit = Produit::where("id", $request->input('produit_id'))->get();
+
+       $produit = $request->input("produit");
+        
         $user_id = Auth::id();
 
 
@@ -93,17 +99,30 @@ class ProduitController extends Controller
 
         if($panier->isEmpty()){
             $panier = new Panier();
+            $panier-> $user_id;
         }
 
         else{
 
         }
-        $panier->produit_id = $request->input('produit_id');
+
+       dd($produit);
+    
+        $produit->panier_id = $panier->get("id");
+
         
-        $panier-> $user_id;
+        Produit::new($produit, $request->input("commercant_id"));
         
 
-        return view('produits.mon-panier', $produit);
+        redirect('produits.index');
+    }
+
+
+    public function retirer_panier($id){
+        $produit = Produit::findOrFail($id);
+        $produit->drop($id);
+
+        return redirect("produit.monPanier");
     }
     
 
